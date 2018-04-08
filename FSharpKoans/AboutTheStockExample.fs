@@ -60,6 +60,17 @@ module ``about the stock example`` =
 
     [<Koan>]
     let YouGotTheAnswerCorrect() =
-        let result =  __
+        let splitCommas (x:string) =
+            x.Split([|','|])
+        
+        let (date, maxVariance) =
+            stockData
+            |> List.tail
+            |> List.map (fun (x:string) -> x.Split([|','|]))
+            |> List.map (fun x -> (x.[0], x.[1], x.[4]))
+            |> List.map (fun (date, openStr, closeStr) -> (date, abs (System.Double.Parse(openStr) - System.Double.Parse(closeStr))))
+            |> List.maxBy (fun (date, variance) -> variance)
+
+        let result = date
         
         AssertEquality "2012-03-13" result
